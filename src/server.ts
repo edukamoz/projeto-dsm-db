@@ -16,30 +16,30 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, "../public")))
 
-// MongoDB Connection
+// Conexão com MongoDB
 let db: any
 
 async function connectToDatabase() {
   try {
     const client = new MongoClient(MONGODB_URI)
     await client.connect()
-    console.log("Connected to MongoDB")
+    console.log("Conectado ao MongoDB")
     db = client.db("book_collection")
     return db
   } catch (error) {
-    console.error("Failed to connect to MongoDB:", error)
+    console.error("Falha ao conectar ao MongoDB:", error)
     process.exit(1)
   }
 }
 
-// Validation middleware
+// Middleware de validação
 const validateBook = [
-  body("title").notEmpty().withMessage("Title is required"),
-  body("author").notEmpty().withMessage("Author is required"),
-  body("publicationDate").isISO8601().withMessage("Publication date must be a valid date"),
-  body("price").isFloat({ min: 0 }).withMessage("Price must be a positive number with decimals"),
-  body("pageCount").isInt({ min: 1 }).withMessage("Page count must be a positive integer"),
-  body("genre").notEmpty().withMessage("Genre is required"),
+  body("title").notEmpty().withMessage("Título é obrigatório"),
+  body("author").notEmpty().withMessage("Autor é obrigatório"),
+  body("publicationDate").isISO8601().withMessage("Data de publicação deve ser uma data válida"),
+  body("price").isFloat({ min: 0 }).withMessage("Preço deve ser um número positivo com decimais"),
+  body("pageCount").isInt({ min: 1 }).withMessage("Número de páginas deve ser um inteiro positivo"),
+  body("genre").notEmpty().withMessage("Gênero é obrigatório"),
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -49,42 +49,42 @@ const validateBook = [
   },
 ]
 
-// Routes
-// GET all books
+// Rotas
+// GET todos os livros
 app.get("/api/books", async (req: Request, res: Response) => {
   try {
     const books = await db.collection("books").find({}).toArray()
     res.json(books)
   } catch (error) {
-    res.status(500).json({ message: "Error fetching books", error })
+    res.status(500).json({ message: "Erro ao buscar livros", error })
   }
 })
 
-// GET book by ID
+// GET livro por ID
 app.get("/api/books/:id", async (req: Request, res: Response) => {
   try {
     const id = new ObjectId(req.params.id)
     const book = await db.collection("books").findOne({ _id: id })
 
     if (!book) {
-      return res.status(404).json({ message: "Book not found" })
+      return res.status(404).json({ message: "Livro não encontrado" })
     }
 
     res.json(book)
   } catch (error) {
-    res.status(500).json({ message: "Error fetching book", error })
+    res.status(500).json({ message: "Erro ao buscar livro", error })
   }
 })
 
-// GET books with complex query (using operators)
+// GET livros com consulta complexa (usando operadores)
 app.get(
   "/api/books/search/advanced",
   [
-    query("minPrice").optional().isFloat().withMessage("Min price must be a number"),
-    query("maxPrice").optional().isFloat().withMessage("Max price must be a number"),
-    query("minPages").optional().isInt().withMessage("Min pages must be an integer"),
-    query("genre").optional().isString().withMessage("Genre must be a string"),
-    query("fromDate").optional().isISO8601().withMessage("From date must be a valid date"),
+    query("minPrice").optional().isFloat().withMessage("Preço mínimo deve ser um número"),
+    query("maxPrice").optional().isFloat().withMessage("Preço máximo deve ser um número"),
+    query("minPages").optional().isInt().withMessage("Número mínimo de páginas deve ser um inteiro"),
+    query("genre").optional().isString().withMessage("Gênero deve ser uma string"),
+    query("fromDate").optional().isISO8601().withMessage("Data inicial deve ser uma data válida"),
   ],
   async (req: Request, res: Response) => {
     try {
@@ -97,7 +97,7 @@ app.get(
 
       let query: any = {}
 
-      // Build query with operators
+      // Monta a consulta com operadores
       if (minPrice || maxPrice) {
         query.price = {}
         if (minPrice) query.price.$gte = Number.parseFloat(minPrice as string)
@@ -116,7 +116,7 @@ app.get(
         query.publicationDate = { $gte: new Date(fromDate as string) }
       }
 
-      // Use $or operator for logical combination if we have multiple conditions
+      // Usa operador $and para combinação lógica se houver múltiplas condições
       if (Object.keys(query).length > 1) {
         const conditions = Object.entries(query).map(([key, value]) => ({ [key]: value }))
         query = { $and: conditions }
@@ -125,12 +125,12 @@ app.get(
       const books = await db.collection("books").find(query).toArray()
       res.json(books)
     } catch (error) {
-      res.status(500).json({ message: "Error searching books", error })
+      res.status(500).json({ message: "Erro ao buscar livros", error })
     }
   },
 )
 
-// POST new book
+// POST novo livro
 app.post("/api/books", validateBook, async (req: Request, res: Response) => {
   try {
     const book = {
@@ -141,19 +141,19 @@ app.post("/api/books", validateBook, async (req: Request, res: Response) => {
 
     const result = await db.collection("books").insertOne(book)
     res.status(201).json({
-      message: "Book created successfully",
+      message: "Livro criado com sucesso",
       bookId: result.insertedId,
       book,
     })
   } catch (error) {
-    res.status(500).json({ message: "Error creating book", error })
+    res.status(500).json({ message: "Erro ao criar livro", error })
   }
 })
 
-// PUT update book
+// PUT atualiza livro
 app.put(
   "/api/books/:id",
-  [param("id").isString().withMessage("Invalid book ID"), ...validateBook],
+  [param("id").isString().withMessage("ID do livro inválido"), ...validateBook],
   async (req: Request, res: Response) => {
     try {
       const id = new ObjectId(req.params.id)
@@ -167,17 +167,17 @@ app.put(
       const result = await db.collection("books").updateOne({ _id: id }, { $set: book })
 
       if (result.matchedCount === 0) {
-        return res.status(404).json({ message: "Book not found" })
+        return res.status(404).json({ message: "Livro não encontrado" })
       }
 
-      res.json({ message: "Book updated successfully", book })
+      res.json({ message: "Livro atualizado com sucesso", book })
     } catch (error) {
-      res.status(500).json({ message: "Error updating book", error })
+      res.status(500).json({ message: "Erro ao atualizar livro", error })
     }
   },
 )
 
-// DELETE book
+// DELETE livro
 app.delete("/api/books/:id", async (req: Request, res: Response) => {
   try {
     const id = new ObjectId(req.params.id)
@@ -185,20 +185,20 @@ app.delete("/api/books/:id", async (req: Request, res: Response) => {
     const result = await db.collection("books").deleteOne({ _id: id })
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "Book not found" })
+      return res.status(404).json({ message: "Livro não encontrado" })
     }
 
-    res.json({ message: "Book deleted successfully" })
+    res.json({ message: "Livro excluído com sucesso" })
   } catch (error) {
-    res.status(500).json({ message: "Error deleting book", error })
+    res.status(500).json({ message: "Erro ao excluir livro", error })
   }
 })
 
-// Start server
+// Inicia o servidor
 async function startServer() {
   await connectToDatabase()
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+    console.log(`Servidor rodando na porta ${PORT}`)
   })
 }
 

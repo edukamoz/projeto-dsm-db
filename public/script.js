@@ -1,7 +1,7 @@
-// API URL - Change this to your deployed API URL when deploying
+// URL da API - Altere para a URL da sua API implantada ao fazer o deploy
 const API_URL = "/api/books"
 
-// DOM Elements
+// Elementos do DOM
 const bookForm = document.getElementById("book-form")
 const booksList = document.getElementById("books-list")
 const formTitle = document.getElementById("form-title")
@@ -10,11 +10,11 @@ const cancelBtn = document.getElementById("cancel-btn")
 const searchForm = document.getElementById("search-form")
 const clearSearchBtn = document.getElementById("clear-search")
 
-// State
+// Estado
 let editMode = false
 let currentBookId = null
 
-// Event Listeners
+// Listeners de Eventos
 document.addEventListener("DOMContentLoaded", () => {
   fetchBooks()
   applyTheme(getSavedTheme())
@@ -24,12 +24,12 @@ cancelBtn.addEventListener("click", resetForm)
 searchForm.addEventListener("submit", handleSearch)
 clearSearchBtn.addEventListener("click", clearSearch)
 
-// Functions
+// Funções
 async function fetchBooks() {
   try {
     const response = await fetch(API_URL)
     if (!response.ok) {
-      throw new Error("Failed to fetch books")
+      throw new Error("Falha ao buscar livros")
     }
 
     const books = await response.json()
@@ -74,7 +74,7 @@ function renderBooks(books) {
             </div>
         `
 
-    // Add event listeners to buttons
+    // Adiciona listeners de eventos aos botões
     bookCard.querySelector(".edit-btn").addEventListener("click", () => editBook(book))
     bookCard.querySelector(".delete-btn").addEventListener("click", () => deleteBook(book._id))
 
@@ -120,7 +120,7 @@ async function createBook(bookData) {
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(error.message || "Failed to create book")
+    throw new Error(error.message || "Falha ao criar livro")
   }
 
   showNotification("Livro adicionado com sucesso!", "success")
@@ -138,7 +138,7 @@ async function updateBook(id, bookData) {
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(error.message || "Failed to update book")
+    throw new Error(error.message || "Falha ao atualizar livro")
   }
 
   showNotification("Livro atualizado com sucesso!", "success")
@@ -157,7 +157,7 @@ async function deleteBook(id) {
 
     if (!response.ok) {
       const error = await response.json()
-      throw new Error(error.message || "Failed to delete book")
+      throw new Error(error.message || "Falha ao excluir livro")
     }
 
     showNotification("Livro excluído com sucesso!", "success")
@@ -171,12 +171,12 @@ function editBook(book) {
   editMode = true
   currentBookId = book._id
 
-  // Update form title and button
+  // Atualiza o título do formulário e o botão
   formTitle.textContent = "Editar Livro"
   submitBtn.textContent = "Atualizar"
   cancelBtn.style.display = "block"
 
-  // Fill form with book data
+  // Preenche o formulário com os dados do livro
   document.getElementById("title").value = book.title
   document.getElementById("author").value = book.author
   document.getElementById("publicationDate").value = new Date(book.publicationDate).toISOString().split("T")[0]
@@ -184,7 +184,7 @@ function editBook(book) {
   document.getElementById("pageCount").value = book.pageCount
   document.getElementById("genre").value = book.genre
 
-  // Scroll to form
+  // Rola até o formulário
   document.querySelector(".form-container").scrollIntoView({ behavior: "smooth" })
 }
 
@@ -192,12 +192,12 @@ function resetForm() {
   editMode = false
   currentBookId = null
 
-  // Reset form title and button
+  // Reseta o título do formulário e o botão
   formTitle.textContent = "Adicionar Novo Livro"
   submitBtn.textContent = "Salvar"
   cancelBtn.style.display = "none"
 
-  // Clear form
+  // Limpa o formulário
   bookForm.reset()
 }
 
@@ -207,7 +207,7 @@ async function handleSearch(event) {
   const formData = new FormData(searchForm)
   const searchParams = new URLSearchParams()
 
-  // Add search parameters if they have values
+  // Adiciona parâmetros de busca se eles tiverem valores
   if (formData.get("minPrice")) searchParams.append("minPrice", formData.get("minPrice"))
   if (formData.get("maxPrice")) searchParams.append("maxPrice", formData.get("maxPrice"))
   if (formData.get("minPages")) searchParams.append("minPages", formData.get("minPages"))
@@ -218,7 +218,7 @@ async function handleSearch(event) {
     const response = await fetch(`${API_URL}/search/advanced?${searchParams.toString()}`)
 
     if (!response.ok) {
-      throw new Error("Failed to search books")
+      throw new Error("Falha ao buscar livros")
     }
 
     const books = await response.json()
@@ -236,27 +236,27 @@ function clearSearch() {
 }
 
 function showNotification(message, type) {
-  // Remove any existing notification
+  // Remove qualquer notificação existente
   const existingNotification = document.querySelector(".notification")
   if (existingNotification) {
     existingNotification.remove()
   }
 
-  // Create notification element
+  // Cria o elemento de notificação
   const notification = document.createElement("div")
   notification.className = `notification ${type}`
   notification.textContent = message
 
-  // Add to DOM
+  // Adiciona ao DOM
   document.body.appendChild(notification)
 
-  // Remove after 3 seconds
+  // Remove após 3 segundos
   setTimeout(() => {
     notification.remove()
   }, 3000)
 }
 
-// Theme toggle functionality
+// Funcionalidade de alternância de tema
 const themeToggleBtn = document.getElementById("theme-toggle-btn");
 const currentTheme = localStorage.getItem("theme") || "light";
 
