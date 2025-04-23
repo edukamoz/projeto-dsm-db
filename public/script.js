@@ -1,4 +1,4 @@
-// URL da API - Altere para a URL da sua API implantada ao fazer o deploy
+// URL da API
 const API_URL = "/api/books"
 
 // Elementos do DOM
