@@ -2,51 +2,52 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coleção de Livros</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciador de Livros</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
     <header>
-        <h1>Coleção de Livros</h1>
+        <h1 id="titulo">Gerenciador de Livros</h1>
+        <button id="theme-toggle-btn" aria-label="Alternar tema">Tema Claro</button>
     </header>
 
     <main>
         <section class="form-container">
             <h2 id="form-title">Adicionar Novo Livro</h2>
             <form id="book-form">
-                <input type="hidden" id="book-id">
+                <input type="hidden" id="book-id" />
 
                 <div class="form-group">
                     <label for="title">Título:</label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" id="title" name="title" required />
                 </div>
 
                 <div class="form-group">
                     <label for="author">Autor:</label>
-                    <input type="text" id="author" name="author" required>
+                    <input type="text" id="author" name="author" required />
                 </div>
 
                 <div class="form-group">
                     <label for="publicationDate">Data de Publicação:</label>
-                    <input type="date" id="publicationDate" name="publicationDate" required>
+                    <input type="date" id="publicationDate" name="publicationDate" required />
                 </div>
 
                 <div class="form-group">
                     <label for="price">Preço (R$):</label>
-                    <input type="number" id="price" name="price" step="0.01" min="0" required>
+                    <input type="number" id="price" name="price" step="0.01" min="0" required />
                 </div>
 
                 <div class="form-group">
                     <label for="pageCount">Número de Páginas:</label>
-                    <input type="number" id="pageCount" name="pageCount" min="1" required>
+                    <input type="number" id="pageCount" name="pageCount" min="1" required />
                 </div>
 
                 <div class="form-group">
                     <label for="genre">Gênero:</label>
-                    <input type="text" id="genre" name="genre" required>
+                    <input type="text" id="genre" name="genre" required />
                 </div>
 
                 <div class="form-actions">
@@ -61,27 +62,27 @@
             <form id="search-form">
                 <div class="form-group">
                     <label for="minPrice">Preço Mínimo:</label>
-                    <input type="number" id="minPrice" name="minPrice" step="0.01" min="0">
+                    <input type="number" id="minPrice" name="minPrice" step="0.01" min="0" />
                 </div>
 
                 <div class="form-group">
                     <label for="maxPrice">Preço Máximo:</label>
-                    <input type="number" id="maxPrice" name="maxPrice" step="0.01" min="0">
+                    <input type="number" id="maxPrice" name="maxPrice" step="0.01" min="0" />
                 </div>
 
                 <div class="form-group">
                     <label for="minPages">Páginas Mínimas:</label>
-                    <input type="number" id="minPages" name="minPages" min="1">
+                    <input type="number" id="minPages" name="minPages" min="1" />
                 </div>
 
                 <div class="form-group">
                     <label for="searchGenre">Gênero:</label>
-                    <input type="text" id="searchGenre" name="genre">
+                    <input type="text" id="searchGenre" name="genre" />
                 </div>
 
                 <div class="form-group">
                     <label for="fromDate">A partir da Data:</label>
-                    <input type="date" id="fromDate" name="fromDate">
+                    <input type="date" id="fromDate" name="fromDate" />
                 </div>
 
                 <div class="form-actions">
@@ -98,7 +99,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 Gerenciador de Coleção de Livros</p>
+        <p>&copy; 2025 Coleção de Livros</p>
     </footer>
 
     <script src="script.js"></script>

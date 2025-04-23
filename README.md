@@ -4,13 +4,15 @@ Este projeto é uma API RESTful para gerenciamento de uma coleção de livros, d
 
 ## Integrantes do Grupo
 
-- [Nome do Integrante 1]
-- [Nome do Integrante 2]
-- [Nome do Integrante 3]
+- Eduardo Kamo Iguei
+- Iago Yuri Rossan
+- Lucas Vinicios Consani
+- Matheus Nery de Camargo
+- Nelson de Oliveira Junior
 
 ## Propósito do Projeto
 
-O objetivo deste projeto é criar um sistema completo de gerenciamento de livros, com um backend RESTful que permite realizar operações CRUD (Create, Read, Update, Delete) em uma coleção de livros armazenada no MongoDB, e um frontend básico em HTML, CSS e JavaScript para interagir com a API.
+O objetivo deste projeto é criar um sistema completo de gerenciamento de livros, com um backend RESTful que permite realizar operações CRUD (Create, Read, Update, Delete) em uma coleção de livros armazenada no MongoDB, e um frontend básico em HTML, CSS e JavaScript para interagir com a API. Este projeto foi criado com o propósito de atender ao trabalho exigido durante o curso de Desenvolvimento de Software Multiplataforma da FATEC Votorantim
 
 ## Link da API Pública
 

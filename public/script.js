@@ -15,7 +15,10 @@ let editMode = false
 let currentBookId = null
 
 // Event Listeners
-document.addEventListener("DOMContentLoaded", fetchBooks)
+document.addEventListener("DOMContentLoaded", () => {
+  fetchBooks()
+  applyTheme(getSavedTheme())
+})
 bookForm.addEventListener("submit", handleFormSubmit)
 cancelBtn.addEventListener("click", resetForm)
 searchForm.addEventListener("submit", handleSearch)
@@ -252,3 +255,33 @@ function showNotification(message, type) {
     notification.remove()
   }, 3000)
 }
+
+// Theme toggle functionality
+const themeToggleBtn = document.getElementById("theme-toggle-btn");
+const currentTheme = localStorage.getItem("theme") || "light";
+
+function applyTheme(theme) {
+  if (theme === "dark") {
+    document.body.classList.add("dark-theme");
+    themeToggleBtn.textContent = "Tema Claro";
+  } else {
+    document.body.classList.remove("dark-theme");
+    themeToggleBtn.textContent = "Tema Escuro";
+  }
+}
+
+function getSavedTheme() {
+  return localStorage.getItem("theme") || "light";
+}
+
+function saveTheme(theme) {
+  localStorage.setItem("theme", theme);
+}
+
+applyTheme(currentTheme);
+
+themeToggleBtn.addEventListener("click", () => {
+  const newTheme = document.body.classList.contains("dark-theme") ? "light" : "dark";
+  applyTheme(newTheme);
+  saveTheme(newTheme);
+});
