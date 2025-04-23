@@ -1,17 +1,23 @@
 {
-    "version": 2,
+    "version": 3,
     "env": {
         "MONGODB_URI": "@mongodb_uri",
         "API_URL": "projeto-dsm-db.vercel.app/api/books"
     },
-    "rewrites": [
+    "builds": [
         {
-            "source": "/api/(.*)",
-            "destination": "/api/$1"
+            "src": "src/server.ts",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/src/server.ts"
         },
         {
-            "source": "/(.*)",
-            "destination": "/index.html"
+            "src": "/(.*)",
+            "dest": "/public/index.html"
         }
     ]
 }
