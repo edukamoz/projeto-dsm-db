@@ -194,6 +194,11 @@ app.delete("/api/books/:id", async (req: Request, res: Response) => {
   }
 })
 
+// Rota catch-all para servir o frontend SPA e evitar erro 404 no Vercel
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"))
+})
+
 // Start server
 async function startServer() {
   await connectToDatabase()
