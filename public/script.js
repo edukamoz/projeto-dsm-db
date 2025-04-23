@@ -1,5 +1,5 @@
 // API URL - Change this to your deployed API URL when deploying
-const API_URL = "https://projeto-dsm-db.vercel.app"
+const API_URL = "https://projeto-dsm-db.vercel.app/api/books"
 
 // DOM Elements
 const bookForm = document.getElementById("book-form")
