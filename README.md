@@ -16,7 +16,7 @@ O objetivo deste projeto é criar um sistema completo de gerenciamento de livros
 
 ## Link da API Pública
 
-[Link para a API hospedada no Vercel]
+[Link para a API hospedada no Vercel](https://projeto-dsm-db.vercel.app/)
 
 ## Tecnologias Utilizadas
 
@@ -27,8 +27,7 @@ O objetivo deste projeto é criar um sistema completo de gerenciamento de livros
 
 ## Estrutura do Projeto
 
-\`\`\`
-/
+```
 ├── src/
 │   ├── server.ts         # Arquivo principal do servidor
 │   └── types.ts          # Definições de tipos
@@ -39,39 +38,39 @@ O objetivo deste projeto é criar um sistema completo de gerenciamento de livros
 ├── package.json          # Dependências do projeto
 ├── tsconfig.json         # Configuração do TypeScript
 └── README.md             # Documentação do projeto
-\`\`\`
+```
 
 ## Instalação e Execução
 
 1. Clone o repositório:
-\`\`\`bash
-git clone https://github.com/seu-usuario/book-collection-api.git
-cd book-collection-api
-\`\`\`
+```bash
+git clone https://github.com/edukamoz/projeto-dsm-db.git
+cd projeto-dsm-db
+```
 
 2. Instale as dependências:
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 3. Configure as variáveis de ambiente:
-   - Crie um arquivo `.env` baseado no `.env.example`
+   - Crie um arquivo `.env`
    - Adicione sua string de conexão do MongoDB
 
 4. Compile o TypeScript:
-\`\`\`bash
+```bash
 npm run build
-\`\`\`
+```
 
 5. Inicie o servidor:
-\`\`\`bash
+```bash
 npm start
-\`\`\`
+```
 
 Para desenvolvimento:
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 ## Endpoints da API
 
@@ -115,22 +114,22 @@ O frontend básico permite:
 ## Documentação das Chamadas REST
 
 ### GET - Buscar todos os livros
-\`\`\`
+```
 GET /api/books
-\`\`\`
+```
 
 ### GET - Buscar livro por ID
-\`\`\`
+```
 GET /api/books/5f8d0e352a8e6a1b9c9f3b5a
-\`\`\`
+```
 
 ### GET - Busca avançada
-\`\`\`
+```
 GET /api/books/search/advanced?minPrice=20&maxPrice=100&genre=Ficção&minPages=200
-\`\`\`
+```
 
 ### POST - Criar novo livro
-\`\`\`
+```
 POST /api/books
 Content-Type: application/json
 
@@ -142,10 +141,10 @@ Content-Type: application/json
   "pageCount": 1178,
   "genre": "Fantasia"
 }
-\`\`\`
+```
 
 ### PUT - Atualizar livro
-\`\`\`
+```
 PUT /api/books/5f8d0e352a8e6a1b9c9f3b5a
 Content-Type: application/json
 
@@ -157,8 +156,9 @@ Content-Type: application/json
   "pageCount": 576,
   "genre": "Fantasia"
 }
-\`\`\`
+```
 
 ### DELETE - Excluir livro
-\`\`\`
+```
 DELETE /api/books/5f8d0e352a8e6a1b9c9f3b5a
+```
