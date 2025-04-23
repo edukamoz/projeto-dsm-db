@@ -80,3 +80,13 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+button {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  cursor: pointer;
+}
