@@ -10,7 +10,6 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://your_mongodb_connection_string"
-app.use(express.static('public'));
 
 // Middleware
 app.use(cors())
