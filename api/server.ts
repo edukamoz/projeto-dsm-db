@@ -8,14 +8,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb+srv://your_mongodb_connection_string";
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-if (process.env.NODE_ENV !== "PRODUCTION") {
+// Servir arquivos estáticos apenas em desenvolvimento
+if (process.env.NODE_ENV !== "production") {
   app.use(express.static(path.join(__dirname, "../public")));
 }
 
@@ -31,7 +32,7 @@ async function connectToDatabase() {
     return cachedDb;
   } catch (error) {
     console.error("Falha ao conectar ao MongoDB:", error);
-    process.exit(1);
+    throw error; // Não encerre o processo em ambiente serverless
   }
 }
 
@@ -66,6 +67,7 @@ app.get("/api/books", async (req: Request, res: Response) => {
     const books = await db.collection("books").find({}).toArray();
     res.json(books);
   } catch (error) {
+    console.error("Erro ao buscar livros:", error);
     res.status(500).json({ message: "Erro ao buscar livros", error });
   }
 });
@@ -83,6 +85,7 @@ app.get("/api/books/:id", async (req: Request, res: Response) => {
 
     res.json(book);
   } catch (error) {
+    console.error("Erro ao buscar livro:", error);
     res.status(500).json({ message: "Erro ao buscar livro", error });
   }
 });
@@ -177,6 +180,7 @@ app.post("/api/books", validateBook, async (req: Request, res: Response) => {
       book,
     });
   } catch (error) {
+    console.error("Erro ao criar livro:", error);
     res.status(500).json({ message: "Erro ao criar livro", error });
   }
 });
@@ -206,6 +210,7 @@ app.put(
 
       res.json({ message: "Livro atualizado com sucesso", book });
     } catch (error) {
+      console.error("Erro ao atualizar livro:", error);
       res.status(500).json({ message: "Erro ao atualizar livro", error });
     }
   }
@@ -225,20 +230,17 @@ app.delete("/api/books/:id", async (req: Request, res: Response) => {
 
     res.json({ message: "Livro excluído com sucesso" });
   } catch (error) {
+    console.error("Erro ao excluir livro:", error);
     res.status(500).json({ message: "Erro ao excluir livro", error });
   }
 });
 
-// Inicia o servidor
-async function startServer() {
-  await connectToDatabase();
+// Para desenvolvimento local
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
   });
 }
 
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  startServer();
-}
-
-module.exports = app;
+// Importante: exportar o app para o ambiente serverless da Vercel
+export default app;
