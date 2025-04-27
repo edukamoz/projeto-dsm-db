@@ -2,11 +2,11 @@
   "name": "book-collection-api",
   "version": "1.0.0",
   "description": "RESTful API for book collection management",
-  "main": "dist/src/server.js",
+  "main": "dist/api/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/src/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+    "start": "node dist/api/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only api/server.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
