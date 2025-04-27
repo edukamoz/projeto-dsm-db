@@ -9,8 +9,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb+srv://your_mongodb_connection_string";
+const MONGODB_URI = "mongodb+srv://admin:ivNrNF1p8IN2M0Cs@movies.7uamh3o.mongodb.net/?retryWrites=true&w=majority&appName=movies"
 
 // Middleware
 app.use(cors());
