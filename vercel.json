@@ -2,7 +2,7 @@
     "version": 2,
     "env": {
         "MONGODB_URI": "@mongodb_uri",
-        "API_URL": "projeto-dsm-db.vercel.app/api/books"
+        "API_URL": "http://localhost:3000/api/books"
     },
     "builds": [
         {
