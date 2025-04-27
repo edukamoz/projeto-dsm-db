@@ -1,5 +1,5 @@
 {
-    "version": 3,
+    "version": 2,
     "env": {
         "MONGODB_URI": "@mongodb_uri",
         "API_URL": "projeto-dsm-db.vercel.app/api/books"
