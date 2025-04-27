@@ -237,7 +237,7 @@ async function startServer() {
   });
 }
 
-if (require.main === module) {
+if (process.env.NODE_ENV !== "PRODUCTION") {
   startServer();
 }
 
