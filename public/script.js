@@ -1,5 +1,8 @@
 // URL da API
-const API_URL = `https://projeto-dsm-db.vercel.app/api/books`;
+const API_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000/api/books"
+    : `https://${window.location.hostname}/api/books`
 
 // Elementos do DOM
 const bookForm = document.getElementById("book-form")
