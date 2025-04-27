@@ -15,7 +15,9 @@ const MONGODB_URI =
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "../public")));
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  app.use(express.static(path.join(__dirname, "../public")));
+}
 
 // Conexão com MongoDB
 let cachedDb: any = null;
