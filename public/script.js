@@ -285,5 +285,3 @@ themeToggleBtn.addEventListener("click", () => {
   applyTheme(newTheme);
   saveTheme(newTheme);
 });
-
-console.log("teste")
