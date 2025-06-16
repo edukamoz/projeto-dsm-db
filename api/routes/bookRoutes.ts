@@ -1,8 +1,12 @@
 import { Router } from "express"
 import { BookController } from "../controllers/bookController"
 import { validateBook, validateBookId, validateAdvancedSearch } from "../middlewares/validation"
+import { authenticateToken } from "../middlewares/auth"
 
 const router = Router()
+
+// Aplicar autenticação em todas as rotas
+router.use(authenticateToken)
 
 // GET todos os livros
 router.get("/", BookController.getAllBooks)
