@@ -14,7 +14,7 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:3000",
+                url: "https://projeto-dsm-db.vercel.app/",
                 description: "Servidor de desenvolvimento",
             },
         ],
