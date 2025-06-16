@@ -20,7 +20,6 @@ let currentBookId = null
 // Listeners de Eventos
 document.addEventListener("DOMContentLoaded", () => {
   fetchBooks()
-  applyTheme(getSavedTheme())
 })
 bookForm.addEventListener("submit", handleFormSubmit)
 cancelBtn.addEventListener("click", resetForm)
@@ -214,8 +213,19 @@ async function handleSearch(event) {
   if (formData.get("minPrice")) searchParams.append("minPrice", formData.get("minPrice"))
   if (formData.get("maxPrice")) searchParams.append("maxPrice", formData.get("maxPrice"))
   if (formData.get("minPages")) searchParams.append("minPages", formData.get("minPages"))
-  if (formData.get("genre")) searchParams.append("genre", formData.get("genre"))
   if (formData.get("fromDate")) searchParams.append("fromDate", formData.get("fromDate"))
+
+  // Coleta os gêneros selecionados
+  const selectedGenres = []
+  const genreCheckboxes = document.querySelectorAll('input[name="genres"]:checked')
+  genreCheckboxes.forEach((checkbox) => {
+    selectedGenres.push(checkbox.value)
+  })
+
+  // Se houver gêneros selecionados, adiciona cada um como parâmetro separado
+  selectedGenres.forEach((genre) => {
+    searchParams.append("genre", genre)
+  })
 
   try {
     const response = await fetch(`${API_URL}/search/advanced?${searchParams.toString()}`)
@@ -235,6 +245,11 @@ async function handleSearch(event) {
 
 function clearSearch() {
   searchForm.reset()
+  // Desmarca todos os checkboxes
+  const genreCheckboxes = document.querySelectorAll('input[name="genres"]')
+  genreCheckboxes.forEach((checkbox) => {
+    checkbox.checked = false
+  })
   fetchBooks()
 }
 
@@ -258,33 +273,3 @@ function showNotification(message, type) {
     notification.remove()
   }, 3000)
 }
-
-// Funcionalidade de alternância de tema
-const themeToggleBtn = document.getElementById("theme-toggle-btn");
-const currentTheme = localStorage.getItem("theme") || "light";
-
-function applyTheme(theme) {
-  if (theme === "dark") {
-    document.body.classList.add("dark-theme");
-    themeToggleBtn.textContent = "Tema Claro";
-  } else {
-    document.body.classList.remove("dark-theme");
-    themeToggleBtn.textContent = "Tema Escuro";
-  }
-}
-
-function getSavedTheme() {
-  return localStorage.getItem("theme") || "light";
-}
-
-function saveTheme(theme) {
-  localStorage.setItem("theme", theme);
-}
-
-applyTheme(currentTheme);
-
-themeToggleBtn.addEventListener("click", () => {
-  const newTheme = document.body.classList.contains("dark-theme") ? "light" : "dark";
-  applyTheme(newTheme);
-  saveTheme(newTheme);
-});

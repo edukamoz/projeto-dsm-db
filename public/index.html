@@ -11,7 +11,6 @@
 <body>
     <header>
         <h1 id="titulo">Gerenciador de Livros</h1>
-        <button id="theme-toggle-btn" aria-label="Alternar tema">Tema Claro</button>
     </header>
 
     <main>
@@ -47,7 +46,39 @@
 
                 <div class="form-group">
                     <label for="genre">Gênero:</label>
-                    <input type="text" id="genre" name="genre" required />
+                    <select id="genre" name="genre" required>
+                        <option value="">Selecione um gênero</option>
+                        <option value="Ação e Aventura">Ação e Aventura</option>
+                        <option value="Autobiografia">Autobiografia</option>
+                        <option value="Autoajuda">Autoajuda</option>
+                        <option value="Biografia">Biografia</option>
+                        <option value="Conto">Conto</option>
+                        <option value="Crônica">Crônica</option>
+                        <option value="Desenvolvimento Pessoal">Desenvolvimento Pessoal</option>
+                        <option value="Distopia">Distopia</option>
+                        <option value="Divulgação Científica">Divulgação Científica</option>
+                        <option value="Dramático">Dramático</option>
+                        <option value="Ensaio">Ensaio</option>
+                        <option value="Épico ou Narrativo">Épico ou Narrativo</option>
+                        <option value="Espiritualidade">Espiritualidade</option>
+                        <option value="Fantasia">Fantasia</option>
+                        <option value="Ficção Científica">Ficção Científica</option>
+                        <option value="Ficção Histórica">Ficção Histórica</option>
+                        <option value="Ficção Policial">Ficção Policial</option>
+                        <option value="Filosofia">Filosofia</option>
+                        <option value="Guias e Manuais">Guias e Manuais</option>
+                        <option value="História">História</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Jornalismo Literário">Jornalismo Literário</option>
+                        <option value="Lírico">Lírico</option>
+                        <option value="Memórias">Memórias</option>
+                        <option value="Novela">Novela</option>
+                        <option value="Religião">Religião</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Suspense">Suspense</option>
+                        <option value="Terror">Terror</option>
+                        <option value="Thriller">Thriller</option>
+                    </select>
                 </div>
 
                 <div class="form-actions">
@@ -76,8 +107,129 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="searchGenre">Gênero:</label>
-                    <input type="text" id="searchGenre" name="genre" />
+                    <label>Gêneros:</label>
+                    <div class="genre-checkboxes">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Ação e Aventura" />
+                            <span>Ação e Aventura</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Autobiografia" />
+                            <span>Autobiografia</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Autoajuda" />
+                            <span>Autoajuda</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Biografia" />
+                            <span>Biografia</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Conto" />
+                            <span>Conto</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Crônica" />
+                            <span>Crônica</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Desenvolvimento Pessoal" />
+                            <span>Desenvolvimento Pessoal</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Distopia" />
+                            <span>Distopia</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Divulgação Científica" />
+                            <span>Divulgação Científica</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Dramático" />
+                            <span>Dramático</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Ensaio" />
+                            <span>Ensaio</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Épico ou Narrativo" />
+                            <span>Épico ou Narrativo</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Espiritualidade" />
+                            <span>Espiritualidade</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Fantasia" />
+                            <span>Fantasia</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Ficção Científica" />
+                            <span>Ficção Científica</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Ficção Histórica" />
+                            <span>Ficção Histórica</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Ficção Policial" />
+                            <span>Ficção Policial</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Filosofia" />
+                            <span>Filosofia</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Guias e Manuais" />
+                            <span>Guias e Manuais</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="História" />
+                            <span>História</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Horror" />
+                            <span>Horror</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Jornalismo Literário" />
+                            <span>Jornalismo Literário</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Lírico" />
+                            <span>Lírico</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Memórias" />
+                            <span>Memórias</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Novela" />
+                            <span>Novela</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Religião" />
+                            <span>Religião</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Romance" />
+                            <span>Romance</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Suspense" />
+                            <span>Suspense</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Terror" />
+                            <span>Terror</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genres" value="Thriller" />
+                            <span>Thriller</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-group">
