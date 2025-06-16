@@ -3,7 +3,12 @@
     "builds": [
         {
             "src": "api/server.ts",
-            "use": "@vercel/node"
+            "use": "@vercel/node",
+            "config": {
+                "includeFiles": [
+                    "api/**"
+                ]
+            }
         }
     ],
     "routes": [
@@ -19,10 +24,5 @@
             "src": "/(.*)",
             "dest": "/public/$1"
         }
-    ],
-    "functions": {
-        "api/server.ts": {
-            "maxDuration": 30
-        }
-    }
+    ]
 }
