@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Gerenciador de Livros</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Gerenciador de Livros</h1>
+
+            <!-- Formulário de Login -->
+            <div id="login-form-container" class="form-container">
+                <h2>Entrar</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email:</label>
+                        <input type="email" id="login-email" name="email" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Senha:</label>
+                        <input type="password" id="login-password" name="password" required />
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Entrar</button>
+                    </div>
+                </form>
+
+                <p class="auth-switch">
+                    Não tem uma conta?
+                    <a href="#" id="show-register">Registre-se</a>
+                </p>
+            </div>
+
+            <!-- Formulário de Registro -->
+            <div id="register-form-container" class="form-container" style="display: none;">
+                <h2>Registrar</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-username">Nome de Usuário:</label>
+                        <input type="text" id="register-username" name="username" required minlength="3" maxlength="30"
+                            pattern="[a-zA-Z0-9_]+" title="Apenas letras, números e underscore" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email">Email:</label>
+                        <input type="email" id="register-email" name="email" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password">Senha:</label>
+                        <input type="password" id="register-password" name="password" required minlength="6"
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$"
+                            title="Deve conter pelo menos uma letra minúscula, uma maiúscula e um número" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirmar Senha:</label>
+                        <input type="password" id="register-confirm-password" name="confirmPassword" required />
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Registrar</button>
+                    </div>
+                </form>
+
+                <p class="auth-switch">
+                    Já tem uma conta?
+                    <a href="#" id="show-login">Entrar</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+
+</html>

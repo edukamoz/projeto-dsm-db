@@ -19,17 +19,90 @@ let currentBookId = null
 
 // Listeners de Eventos
 document.addEventListener("DOMContentLoaded", () => {
+  // Verifica se está autenticado
+  if (!getToken()) {
+    window.location.href = "auth.html"
+    return
+  }
+
   fetchBooks()
+  setupLogout()
 })
+
 bookForm.addEventListener("submit", handleFormSubmit)
 cancelBtn.addEventListener("click", resetForm)
 searchForm.addEventListener("submit", handleSearch)
 clearSearchBtn.addEventListener("click", clearSearch)
 
-// Funções
+// Funções de autenticação
+function getToken() {
+  return localStorage.getItem("token")
+}
+
+function getUser() {
+  const user = localStorage.getItem("user")
+  return user ? JSON.parse(user) : null
+}
+
+function logout() {
+  localStorage.removeItem("token")
+  localStorage.removeItem("user")
+  window.location.href = "auth.html"
+}
+
+function setupLogout() {
+  // Adiciona botão de logout no header
+  const header = document.querySelector("header")
+  const user = getUser()
+
+  if (user) {
+    const userInfo = document.createElement("div")
+    userInfo.className = "user-info"
+    userInfo.innerHTML = `
+      <span>Olá, ${user.username}!</span>
+      <button id="logout-btn" class="logout-btn">Sair</button>
+    `
+    header.appendChild(userInfo)
+
+    document.getElementById("logout-btn").addEventListener("click", logout)
+  }
+}
+
+// Função para fazer requisições autenticadas
+async function authenticatedFetch(url, options = {}) {
+  const token = getToken()
+
+  const defaultOptions = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const mergedOptions = {
+    ...defaultOptions,
+    ...options,
+    headers: {
+      ...defaultOptions.headers,
+      ...options.headers,
+    },
+  }
+
+  const response = await fetch(url, mergedOptions)
+
+  // Se não autorizado, redireciona para login
+  if (response.status === 401 || response.status === 403) {
+    logout()
+    return
+  }
+
+  return response
+}
+
+// Funções atualizadas com autenticação
 async function fetchBooks() {
   try {
-    const response = await fetch(API_URL)
+    const response = await authenticatedFetch(API_URL)
     if (!response.ok) {
       throw new Error("Falha ao buscar livros")
     }
@@ -112,11 +185,8 @@ async function handleFormSubmit(event) {
 }
 
 async function createBook(bookData) {
-  const response = await fetch(API_URL, {
+  const response = await authenticatedFetch(API_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(bookData),
   })
 
@@ -130,11 +200,8 @@ async function createBook(bookData) {
 }
 
 async function updateBook(id, bookData) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await authenticatedFetch(`${API_URL}/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(bookData),
   })
 
@@ -153,7 +220,7 @@ async function deleteBook(id) {
   }
 
   try {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await authenticatedFetch(`${API_URL}/${id}`, {
       method: "DELETE",
     })
 
@@ -228,7 +295,7 @@ async function handleSearch(event) {
   })
 
   try {
-    const response = await fetch(`${API_URL}/search/advanced?${searchParams.toString()}`)
+    const response = await authenticatedFetch(`${API_URL}/search/advanced?${searchParams.toString()}`)
 
     if (!response.ok) {
       throw new Error("Falha ao buscar livros")
