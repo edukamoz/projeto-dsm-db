@@ -4,7 +4,28 @@ import { connectToDatabase } from "../config/database"
 import { validationResult } from "express-validator"
 
 export class BookController {
-    // GET todos os livros
+    /**
+     * @swagger
+     * /api/books:
+     *   get:
+     *     summary: Lista todos os livros
+     *     tags: [Books]
+     *     security:
+     *       - bearerAuth: []
+     *     responses:
+     *       200:
+     *         description: Lista de livros
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 $ref: '#/components/schemas/Book'
+     *       401:
+     *         description: Token não fornecido
+     *       403:
+     *         description: Token inválido
+     */
     static async getAllBooks(req: Request, res: Response) {
         try {
             const db = await connectToDatabase()
@@ -16,7 +37,35 @@ export class BookController {
         }
     }
 
-    // GET livro por ID
+    /**
+     * @swagger
+     * /api/books/{id}:
+     *   get:
+     *     summary: Obtém um livro por ID
+     *     tags: [Books]
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         schema:
+     *           type: string
+     *         description: ID do livro
+     *     responses:
+     *       200:
+     *         description: Dados do livro
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Book'
+     *       404:
+     *         description: Livro não encontrado
+     *       401:
+     *         description: Token não fornecido
+     *       403:
+     *         description: Token inválido
+     */
     static async getBookById(req: Request, res: Response) {
         try {
             const db = await connectToDatabase()
@@ -34,7 +83,53 @@ export class BookController {
         }
     }
 
-    // GET livros com consulta complexa
+    /**
+     * @swagger
+     * /api/books/search/advanced:
+     *   get:
+     *     summary: Busca avançada de livros
+     *     tags: [Books]
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: query
+     *         name: minPrice
+     *         schema:
+     *           type: number
+     *         description: Preço mínimo
+     *       - in: query
+     *         name: maxPrice
+     *         schema:
+     *           type: number
+     *         description: Preço máximo
+     *       - in: query
+     *         name: minPages
+     *         schema:
+     *           type: integer
+     *         description: Número mínimo de páginas
+     *       - in: query
+     *         name: genre
+     *         schema:
+     *           type: array
+     *           items:
+     *             type: string
+     *         description: Gêneros (pode ser múltiplos)
+     *       - in: query
+     *         name: fromDate
+     *         schema:
+     *           type: string
+     *           format: date
+     *         description: Data de publicação a partir de
+     *     responses:
+     *       200:
+     *         description: Lista de livros filtrados
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 $ref: '#/components/schemas/Book'
+     */
     static async advancedSearch(req: Request, res: Response) {
         try {
             const db = await connectToDatabase()
@@ -58,8 +153,10 @@ export class BookController {
                 query.pageCount = { $gte: Number.parseInt(minPages as string) }
             }
 
+            // Suporte para múltiplos gêneros
             if (genre) {
-                query.genre = genre
+                const genres = Array.isArray(genre) ? genre : [genre]
+                query.genre = { $in: genres }
             }
 
             if (fromDate) {
@@ -82,7 +179,35 @@ export class BookController {
         }
     }
 
-    // POST novo livro
+    /**
+     * @swagger
+     * /api/books:
+     *   post:
+     *     summary: Cria um novo livro
+     *     tags: [Books]
+     *     security:
+     *       - bearerAuth: []
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/BookInput'
+     *     responses:
+     *       201:
+     *         description: Livro criado com sucesso
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                 bookId:
+     *                   type: string
+     *                 book:
+     *                   $ref: '#/components/schemas/Book'
+     */
     static async createBook(req: Request, res: Response) {
         try {
             const db = await connectToDatabase()
@@ -104,7 +229,33 @@ export class BookController {
         }
     }
 
-    // PUT atualiza livro
+    /**
+     * @swagger
+     * /api/books/{id}:
+     *   put:
+     *     summary: Atualiza um livro
+     *     tags: [Books]
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         schema:
+     *           type: string
+     *         description: ID do livro
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/BookInput'
+     *     responses:
+     *       200:
+     *         description: Livro atualizado com sucesso
+     *       404:
+     *         description: Livro não encontrado
+     */
     static async updateBook(req: Request, res: Response) {
         try {
             const db = await connectToDatabase()
@@ -129,7 +280,27 @@ export class BookController {
         }
     }
 
-    // DELETE livro
+    /**
+     * @swagger
+     * /api/books/{id}:
+     *   delete:
+     *     summary: Exclui um livro
+     *     tags: [Books]
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         schema:
+     *           type: string
+     *         description: ID do livro
+     *     responses:
+     *       200:
+     *         description: Livro excluído com sucesso
+     *       404:
+     *         description: Livro não encontrado
+     */
     static async deleteBook(req: Request, res: Response) {
         try {
             const db = await connectToDatabase()
