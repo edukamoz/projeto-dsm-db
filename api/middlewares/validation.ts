@@ -53,9 +53,11 @@ export const validateLogin = [
 export const validateBookId = [param("id").isString().withMessage("ID do livro inválido")]
 
 export const validateAdvancedSearch = [
+    query("title").optional().isString().withMessage("Título deve ser uma string"),
     query("minPrice").optional().isFloat().withMessage("Preço mínimo deve ser um número"),
     query("maxPrice").optional().isFloat().withMessage("Preço máximo deve ser um número"),
     query("minPages").optional().isInt().withMessage("Número mínimo de páginas deve ser um inteiro"),
+    query("maxPages").optional().isInt().withMessage("Número máximo de páginas deve ser um inteiro"),
     query("genre").optional().isString().withMessage("Gênero deve ser uma string"),
     query("fromDate").optional().isISO8601().withMessage("Data inicial deve ser uma data válida"),
 ]

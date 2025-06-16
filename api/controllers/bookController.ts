@@ -93,6 +93,11 @@ export class BookController {
      *       - bearerAuth: []
      *     parameters:
      *       - in: query
+     *         name: title
+     *         schema:
+     *           type: string
+     *         description: Busca parcial no título do livro (case insensitive)
+     *       - in: query
      *         name: minPrice
      *         schema:
      *           type: number
@@ -108,12 +113,17 @@ export class BookController {
      *           type: integer
      *         description: Número mínimo de páginas
      *       - in: query
+     *         name: maxPages
+     *         schema:
+     *           type: integer
+     *         description: Número máximo de páginas
+     *       - in: query
      *         name: genre
      *         schema:
      *           type: array
      *           items:
      *             type: string
-     *         description: Gêneros (pode ser múltiplos)
+     *         description: Gêneros (pode ser múltiplos, retorna livros que contenham qualquer um dos gêneros selecionados)
      *       - in: query
      *         name: fromDate
      *         schema:
@@ -138,22 +148,30 @@ export class BookController {
                 return res.status(400).json({ errors: errors.array() })
             }
 
-            const { minPrice, maxPrice, minPages, genre, fromDate } = req.query
+            const { minPrice, maxPrice, minPages, maxPages, genre, fromDate, title } = req.query
 
-            let query: any = {}
+            const query: any = {}
 
-            // Monta a consulta com operadores
+            // Busca por título (case insensitive e parcial)
+            if (title) {
+                query.title = { $regex: title as string, $options: "i" }
+            }
+
+            // Monta a consulta de preço
             if (minPrice || maxPrice) {
                 query.price = {}
                 if (minPrice) query.price.$gte = Number.parseFloat(minPrice as string)
                 if (maxPrice) query.price.$lte = Number.parseFloat(maxPrice as string)
             }
 
-            if (minPages) {
-                query.pageCount = { $gte: Number.parseInt(minPages as string) }
+            // Monta a consulta de páginas
+            if (minPages || maxPages) {
+                query.pageCount = {}
+                if (minPages) query.pageCount.$gte = Number.parseInt(minPages as string)
+                if (maxPages) query.pageCount.$lte = Number.parseInt(maxPages as string)
             }
 
-            // Suporte para múltiplos gêneros
+            // Suporte para múltiplos gêneros com OR
             if (genre) {
                 const genres = Array.isArray(genre) ? genre : [genre]
                 query.genre = { $in: genres }
@@ -161,14 +179,6 @@ export class BookController {
 
             if (fromDate) {
                 query.publicationDate = { $gte: new Date(fromDate as string) }
-            }
-
-            // Usa operador $and para combinação lógica se houver múltiplas condições
-            if (Object.keys(query).length > 1) {
-                const conditions = Object.entries(query).map(([key, value]) => ({
-                    [key]: value,
-                }))
-                query = { $and: conditions }
             }
 
             const books = await db.collection("books").find(query).toArray()

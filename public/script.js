@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetchBooks()
   setupLogout()
+  setupPriceRange()
 })
 
 bookForm.addEventListener("submit", handleFormSubmit)
@@ -66,6 +67,31 @@ function setupLogout() {
 
     document.getElementById("logout-btn").addEventListener("click", logout)
   }
+}
+
+function setupPriceRange() {
+  const minPriceRange = document.getElementById("minPriceRange")
+  const maxPriceRange = document.getElementById("maxPriceRange")
+  const priceMinSpan = document.getElementById("priceMin")
+  const priceMaxSpan = document.getElementById("priceMax")
+
+  function updatePriceDisplay() {
+    const minVal = Number.parseInt(minPriceRange.value)
+    const maxVal = Number.parseInt(maxPriceRange.value)
+
+    if (minVal >= maxVal) {
+      minPriceRange.value = maxVal - 1
+    }
+
+    priceMinSpan.textContent = minPriceRange.value
+    priceMaxSpan.textContent = maxPriceRange.value
+  }
+
+  minPriceRange.addEventListener("input", updatePriceDisplay)
+  maxPriceRange.addEventListener("input", updatePriceDisplay)
+
+  // Inicializa os valores
+  updatePriceDisplay()
 }
 
 // Função para fazer requisições autenticadas
@@ -277,9 +303,16 @@ async function handleSearch(event) {
   const searchParams = new URLSearchParams()
 
   // Adiciona parâmetros de busca se eles tiverem valores
-  if (formData.get("minPrice")) searchParams.append("minPrice", formData.get("minPrice"))
-  if (formData.get("maxPrice")) searchParams.append("maxPrice", formData.get("maxPrice"))
+  if (formData.get("title")) searchParams.append("title", formData.get("title"))
+
+  // Range de preço
+  const minPrice = document.getElementById("minPriceRange").value
+  const maxPrice = document.getElementById("maxPriceRange").value
+  if (minPrice && minPrice !== "0") searchParams.append("minPrice", minPrice)
+  if (maxPrice && maxPrice !== "1000") searchParams.append("maxPrice", maxPrice)
+
   if (formData.get("minPages")) searchParams.append("minPages", formData.get("minPages"))
+  if (formData.get("maxPages")) searchParams.append("maxPages", formData.get("maxPages"))
   if (formData.get("fromDate")) searchParams.append("fromDate", formData.get("fromDate"))
 
   // Coleta os gêneros selecionados
@@ -312,11 +345,19 @@ async function handleSearch(event) {
 
 function clearSearch() {
   searchForm.reset()
+
+  // Reseta os ranges de preço
+  document.getElementById("minPriceRange").value = 0
+  document.getElementById("maxPriceRange").value = 1000
+  document.getElementById("priceMin").textContent = "0"
+  document.getElementById("priceMax").textContent = "1000"
+
   // Desmarca todos os checkboxes
   const genreCheckboxes = document.querySelectorAll('input[name="genres"]')
   genreCheckboxes.forEach((checkbox) => {
     checkbox.checked = false
   })
+
   fetchBooks()
 }
 

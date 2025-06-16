@@ -92,18 +92,30 @@
             <h2>Busca Avançada</h2>
             <form id="search-form">
                 <div class="form-group">
-                    <label for="minPrice">Preço Mínimo:</label>
-                    <input type="number" id="minPrice" name="minPrice" step="0.01" min="0" />
+                    <label for="searchTitle">Título:</label>
+                    <input type="text" id="searchTitle" name="title" placeholder="Digite parte do título..." />
                 </div>
 
                 <div class="form-group">
-                    <label for="maxPrice">Preço Máximo:</label>
-                    <input type="number" id="maxPrice" name="maxPrice" step="0.01" min="0" />
+                    <label for="priceRange">Faixa de Preço: R$ <span id="priceMin">0</span> - R$ <span
+                            id="priceMax">1000</span></label>
+                    <div class="price-range-container">
+                        <input type="range" id="minPriceRange" name="minPrice" min="0" max="1000" value="0"
+                            step="0.01" />
+                        <input type="range" id="maxPriceRange" name="maxPrice" min="0" max="1000" value="1000"
+                            step="0.01" />
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="minPages">Páginas Mínimas:</label>
-                    <input type="number" id="minPages" name="minPages" min="1" />
+                <div class="form-group pages-group">
+                    <div class="pages-input">
+                        <label for="minPages">Páginas Mínimas:</label>
+                        <input type="number" id="minPages" name="minPages" min="1" />
+                    </div>
+                    <div class="pages-input">
+                        <label for="maxPages">Páginas Máximas:</label>
+                        <input type="number" id="maxPages" name="maxPages" min="1" />
+                    </div>
                 </div>
 
                 <div class="form-group">
