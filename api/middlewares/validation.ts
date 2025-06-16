@@ -17,6 +17,39 @@ export const validateBook = [
     },
 ]
 
+export const validateRegister = [
+    body("username")
+        .isLength({ min: 3, max: 30 })
+        .withMessage("Nome de usuário deve ter entre 3 e 30 caracteres")
+        .matches(/^[a-zA-Z0-9_]+$/)
+        .withMessage("Nome de usuário deve conter apenas letras, números e underscore"),
+    body("email").isEmail().withMessage("Email deve ser válido"),
+    body("password")
+        .isLength({ min: 6 })
+        .withMessage("Senha deve ter pelo menos 6 caracteres")
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+        .withMessage("Senha deve conter pelo menos uma letra minúscula, uma maiúscula e um número"),
+    (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        next()
+    },
+]
+
+export const validateLogin = [
+    body("email").isEmail().withMessage("Email deve ser válido"),
+    body("password").notEmpty().withMessage("Senha é obrigatória"),
+    (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        next()
+    },
+]
+
 export const validateBookId = [param("id").isString().withMessage("ID do livro inválido")]
 
 export const validateAdvancedSearch = [
